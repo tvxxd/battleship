@@ -4,12 +4,21 @@ class Gameboard {
     constructor() {
         this.ships = [];
         this.missedShots = [];
-        this.grid = Array(5).fill(null).map(() => Array(5).fill(null));
+        this.grid = Array(10).fill(null).map(() => Array(10).fill(null));
     }
 
     placeShip(ship, row, col, isHorizontal) {
+        // if the ship fits within grid
+        if (isHorizontal && ship.shipLength + col > this.grid.length) return false;
+        if (!isHorizontal && ship.shipLength + row > this.grid.length) return false;
 
-        // place the ship on the grid
+        // if theres already a ship 
+        for (let i = 0; i < ship.shipLength; i++) {
+            if (isHorizontal && this.grid[row][col + i]) return false;
+            if (!isHorizontal && this.grid[row + i][col]) return false;
+        }
+
+        // place the ship in the grid
         for (let i = 0; i < ship.shipLength; i++) {
             if (isHorizontal) {
                 this.grid[row][col + i] = ship;
@@ -17,7 +26,8 @@ class Gameboard {
                 this.grid[row + i][col] = ship;
             }
         }
-        
+
+        // placed ships
         this.ships.push(ship);
 
         return true;
@@ -25,11 +35,6 @@ class Gameboard {
 
     receiveAttack() {
     }
-
 }
 
-const board = new Gameboard();
-const ship1 = new Ship(3);
-const result = board.placeShip(ship1, 1, 2, false);
-console.log(result);
 module.exports = Gameboard;
