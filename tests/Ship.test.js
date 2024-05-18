@@ -89,7 +89,5 @@ describe('Ship.isSunk()', () => {
         ship.hit();
 
         expect(ship.isSunk()).toBeTruthy();
-        
     });
-
 });

@@ -2,7 +2,7 @@ const Gameboard = require('../src/gameboard');
 const Ship = require('../src/ship');
 
 describe('Gameboard.placeShip()', () => {
-    test('placeShip() should place ship horizontally and return true', () => {
+    test('should place ship horizontally and return true', () => {
         const gameboard = new Gameboard();
         const ship = new Ship(3);
 
@@ -10,7 +10,7 @@ describe('Gameboard.placeShip()', () => {
         expect(result).toBe(true);
     });
 
-    test('placeShip() should place ship vertically and return true', () => {
+    test('should place ship vertically and return true', () => {
         const gameboard = new Gameboard();
         const ship = new Ship(3);
 
@@ -18,7 +18,7 @@ describe('Gameboard.placeShip()', () => {
         expect(result).toBe(true);
     });
 
-    test('placeShip() should place the ship horizontally at the specified coordinates', () => {
+    test('should place the ship horizontally at the specified coordinates', () => {
         const gameboard = new Gameboard();
         const ship = new Ship(3);
 
@@ -29,7 +29,7 @@ describe('Gameboard.placeShip()', () => {
         }
     });
 
-    test('placeShip() should place the ship vertically at the specified coordinates', () => {
+    test('should place the ship vertically at the specified coordinates', () => {
         const gameboard = new Gameboard();
         const ship = new Ship(3);
 
@@ -40,7 +40,7 @@ describe('Gameboard.placeShip()', () => {
         }
     });
 
-    test('placeShip() should add a ship to ships array', () => {
+    test('should add a ship to ships array', () => {
         const gameboard = new Gameboard();
         const ship = new Ship(3);
 
@@ -49,7 +49,7 @@ describe('Gameboard.placeShip()', () => {
         expect(gameboard.ships).toContain(ship);
     });
 
-    test('placeShip() should return false if ship does not fit horizontally', () => {
+    test('should return false if ship does not fit horizontally', () => {
         const gameboard = new Gameboard();
         const ship = new Ship(5);
 
@@ -59,7 +59,7 @@ describe('Gameboard.placeShip()', () => {
 
     });
 
-    test('placeShip() should return false if ship does not fit vertically', () => {
+    test('should return false if ship does not fit vertically', () => {
         const gameboard = new Gameboard();
         const ship = new Ship(5);
 
@@ -79,7 +79,7 @@ describe('Gameboard.placeShip()', () => {
 
     });
 
-    test('placeShip() should return false if ship merges with existing ships horizontally', () => {
+    test('should return false if ship merges with existing ships horizontally', () => {
         const gameboard = new Gameboard();
         const ship1 = new Ship(3);
         const ship2 = new Ship(4);
@@ -91,7 +91,7 @@ describe('Gameboard.placeShip()', () => {
         expect(result).toBe(false);
     });
 
-    test('placeShip() should return false if ship merges with existing ships vertically', () => {
+    test('should return false if ship merges with existing ships vertically', () => {
         const gameboard = new Gameboard();
         const ship1 = new Ship(3);
         const ship2 = new Ship(4);
@@ -101,5 +101,83 @@ describe('Gameboard.placeShip()', () => {
         const result = gameboard.placeShip(ship2, 1, 0, false);
 
         expect(result).toBe(false);
+    });
+})
+
+describe('Gameboard.receiveAttack()', () => {
+    test('should return true if the target takes a hit', () => {
+        const gameboard = new Gameboard();
+        const ship = new Ship(3);
+
+        gameboard.placeShip(ship, 0, 0, true);
+
+        const attack = gameboard.receiveAttack(0, 2);
+
+        expect(attack).toBe(true);
+        expect(ship.hits).toBe(1);
+        expect(gameboard.grid[0][2]).toBe('hit');
+    });
+
+    test('should return false if attack is out of grid', () => {
+        const gameboard = new Gameboard();
+        const ship = new Ship(3);
+
+        gameboard.placeShip(ship, 0, 0, true);
+
+        const attack = gameboard.receiveAttack(-10, 10);
+        expect(attack).toBe(false);
+    });
+
+    test('should return true if the shot is missed and is in grid boundries', () => {
+        const gameboard = new Gameboard();
+
+        // this true indicates successful attack
+        const attack = gameboard.receiveAttack(0, 5);
+        expect(attack).toBe(true);
+        expect(gameboard.missedShots).toContain('0,5');
+    });
+
+    test('should return false if already attacked', () => {
+        const gameboard = new Gameboard();
+        const ship = new Ship(3);
+
+        gameboard.placeShip(ship, 0, 0, true);
+
+        gameboard.receiveAttack(0, 2);
+        const attack = gameboard.receiveAttack(0, 2);
+
+        expect(attack).toBe(false);
+    });
+
+    test('should sink the ship after enough hits (ship.hits >= shipLength )', () => {
+        const gameboard = new Gameboard();
+        const ship = new Ship(3);
+
+        gameboard.placeShip(ship, 0, 0, true);
+
+        gameboard.receiveAttack(0, 0);
+        gameboard.receiveAttack(0, 1);
+        gameboard.receiveAttack(0, 2);
+
+        expect(ship.isSunk()).toBe(true);
+    });
+});
+
+describe('Gameboard.allShipsSunk()', () => {
+    test('should check if all ships are sunk', () => {
+        const gameboard = new Gameboard();
+        const ship1 = new Ship(2);
+        const ship2 = new Ship(2);
+
+        gameboard.placeShip(ship1, 0, 1, true);
+        gameboard.placeShip(ship2, 1, 0, true);
+
+        // sink both ships
+        gameboard.receiveAttack(0, 1);
+        gameboard.receiveAttack(0, 2);
+        gameboard.receiveAttack(1, 0);
+        gameboard.receiveAttack(1, 1);
+
+        expect(gameboard.allShipsSunk()).toBe(true);
     });
 })

@@ -27,13 +27,38 @@ class Gameboard {
             }
         }
 
-        // placed ships
         this.ships.push(ship);
 
         return true;
     }
 
-    receiveAttack() {
+    receiveAttack(row, col) {
+        // check for grid boundries
+        if (row < 0 || row >= this.grid.length || col < 0 || col >= this.grid.length) {
+            return false;
+        }
+
+        // check already attacked 
+        if (this.missedShots.includes(`${row},${col}`) || this.grid[row][col] === 'hit') {
+            return false;
+        }
+
+        const target = this.grid[row][col];
+
+        if (target instanceof Ship) {
+            target.hit();
+            this.grid[row][col] = 'hit'
+            return true;
+        }
+
+        this.missedShots.push(`${row},${col}`)
+
+        // successful attack.
+        return true;
+    }
+
+    allShipsSunk() {
+        return this.ships.every(ship => ship.isSunk());
     }
 }
 
