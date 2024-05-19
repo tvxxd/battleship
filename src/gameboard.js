@@ -27,6 +27,7 @@ class Gameboard {
             }
         }
 
+        
         this.ships.push(ship);
 
         return true;
@@ -47,7 +48,7 @@ class Gameboard {
 
         if (target instanceof Ship) {
             target.hit();
-            this.grid[row][col] = 'hit'
+            this.grid[row][col] = 'hit';
             return true;
         }
 
