@@ -33,4 +33,19 @@ describe('Player.', () => {
             expect(result).toBe(true);
         })
     });
+
+    describe('placeShipForComputer()', () => {
+        let computerPlayer;
+
+        beforeEach(() => {
+            computerPlayer = new Player('computer');
+        });
+
+        test('should place the correct number of ships on the gameboard', () => {
+            const placedShips = computerPlayer.gameboard.ships.length;
+            console.log(computerPlayer.gameboard.grid);
+            expect(placedShips).toBe(4);
+        });
+
+    })
 })
