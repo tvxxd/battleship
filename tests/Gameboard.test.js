@@ -1,5 +1,6 @@
 const Gameboard = require('../src/gameboard');
 const Ship = require('../src/ship');
+const Player = require('../src/player')
 
 describe('Gameboard()', () => {
     describe('placeShip()', () => {
@@ -181,5 +182,20 @@ describe('Gameboard()', () => {
 
             expect(gameboard.allShipsSunk()).toBe(true);
         });
+    })
+
+    describe('placeShip() for computer', () => {
+        let computerPlayer;
+
+        beforeEach(() => {
+            computerPlayer = new Player('computer');
+        });
+
+        test('should place the correct number of ships on the gameboard', () => {
+            const placedShips = computerPlayer.gameboard.ships.length;
+            console.log(computerPlayer.gameboard.grid);
+            expect(placedShips).toBe(4);
+        });
+
     })
 })

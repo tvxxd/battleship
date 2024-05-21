@@ -27,7 +27,6 @@ class Gameboard {
             }
         }
 
-        
         this.ships.push(ship);
 
         return true;
