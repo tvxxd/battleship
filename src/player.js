@@ -1,7 +1,7 @@
-const Gameboard = require('./gameboard');
-const Ship = require("./ship")
+import Gameboard from './gameboard';
+import Ship from './ship';
 
-class Player {
+export default class Player {
     constructor(playerType) {
         this.playerType = playerType; // real & computer
         this.gameboard = new Gameboard();
@@ -11,7 +11,7 @@ class Player {
 
     placeShipsForComputer(numberOfShips) {
         let placedShips = 0;
-        
+
         while (placedShips < numberOfShips) {
             const randomSize = Math.floor(Math.random() * 4) + 2;
             const randomX = Math.floor(Math.random() * 10);
@@ -50,5 +50,3 @@ class Player {
         return { row, col };
     }
 }
-
-module.exports = Player;

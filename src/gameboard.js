@@ -1,6 +1,6 @@
-const Ship = require('./ship');
+import Ship from "./ship";
 
-class Gameboard {
+export default class Gameboard {
     constructor() {
         this.ships = [];
         this.missedShots = [];
@@ -48,7 +48,7 @@ class Gameboard {
         if (target instanceof Ship) {
             target.hit();
             this.grid[row][col] = 'hit';
-            return true;
+            return 'hit';
         }
 
         this.missedShots.push(`${row},${col}`)
@@ -61,5 +61,3 @@ class Gameboard {
         return this.ships.every(ship => ship.isSunk());
     }
 }
-
-module.exports = Gameboard;
