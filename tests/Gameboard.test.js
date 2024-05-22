@@ -1,6 +1,6 @@
-const Gameboard = require('../src/gameboard');
-const Ship = require('../src/ship');
-const Player = require('../src/player')
+import Player from '../src/player.js';
+import Gameboard from '../src/gameboard.js';
+import Ship from '../src/ship.js';
 
 describe('Gameboard()', () => {
     describe('placeShip()', () => {
@@ -107,7 +107,7 @@ describe('Gameboard()', () => {
     })
 
     describe('receiveAttack()', () => {
-        test('should return true if the target takes a hit', () => {
+        test('should return "hit" if the target takes a hit', () => {
             const gameboard = new Gameboard();
             const ship = new Ship(3);
 
@@ -115,7 +115,7 @@ describe('Gameboard()', () => {
 
             const attack = gameboard.receiveAttack(0, 2);
 
-            expect(attack).toBe(true);
+            expect(attack).toBe('hit');
             expect(ship.hits).toBe(1);
             expect(gameboard.grid[0][2]).toBe('hit');
         });
@@ -181,6 +181,23 @@ describe('Gameboard()', () => {
             gameboard.receiveAttack(1, 1);
 
             expect(gameboard.allShipsSunk()).toBe(true);
+        });
+    })
+
+    describe('shipsCount()', () => {
+        test('should check how manu ships are left', () => {
+            const gameboard = new Gameboard();
+            const ship1 = new Ship(2);
+            const ship2 = new Ship(2);
+
+            gameboard.placeShip(ship1, 0, 1, true);
+            gameboard.placeShip(ship2, 1, 0, true);
+
+            // sink 1 ship
+            gameboard.receiveAttack(0, 1);
+            gameboard.receiveAttack(0, 2);
+
+            expect(gameboard.shipsCount()).toBe(1);
         });
     })
 })

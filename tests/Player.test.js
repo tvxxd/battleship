@@ -1,6 +1,6 @@
-const Player = require('../src/player');
-const Gameboard = require('../src/gameboard');
-const Ship = require('../src/ship');
+import Player from '../src/player';
+import Gameboard from '../src/gameboard';
+import Ship from '../src/ship';
 
 describe('Player.', () => {
     let player;
@@ -43,7 +43,6 @@ describe('Player.', () => {
 
         test('should place the correct number of ships on the gameboard', () => {
             const placedShips = computerPlayer.gameboard.ships.length;
-            console.log(computerPlayer.gameboard.grid);
             expect(placedShips).toBe(4);
         });
 

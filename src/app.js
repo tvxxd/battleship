@@ -1,4 +1,4 @@
-import UI from './ui'
+import UI from './ui.js'
 import './style/style.css'
 
 document.addEventListener("DOMContentLoaded", () => {

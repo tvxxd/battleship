@@ -7,13 +7,17 @@
   grid-template-rows: repeat(10, 1fr);
 
   gap: 0.0625em;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
 }
 
 .grid-item {
   border: 1px solid black;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .grid-item:hover {
@@ -36,7 +40,51 @@
   display: flex;
 }
 
-h3 {
-  margin: 1rem;
+h3,
+h4 {
   text-align: center;
+  margin: 0;
+}
+
+.grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.popup {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 0.625rem;
+  z-index: 999; /* Ensure it appears on top of other elements */
+}
+
+.popup form {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup input[type="checkbox"] {
+  margin-bottom: 0.3125rem;
+}
+
+.popup input[type="number"] {
+  margin-bottom: 0.625rem;
+}
+
+.popup button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.3125rem 0.625rem;
+  cursor: pointer;
+}
+
+.popup button:hover {
+  background-color: #0056b3;
+}
+
+.ship-placed{
+  background-color: #0056b3;
 }

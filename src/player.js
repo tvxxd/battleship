@@ -1,12 +1,12 @@
-import Gameboard from './gameboard';
-import Ship from './ship';
+import Gameboard from './gameboard.js';
+import Ship from './ship.js';
 
 export default class Player {
     constructor(playerType) {
         this.playerType = playerType; // real & computer
         this.gameboard = new Gameboard();
 
-        if (playerType === 'computer') this.placeShipsForComputer(4);
+        if (playerType === 'computer') this.placeShipsForComputer(4)
     }
 
     placeShipsForComputer(numberOfShips) {
