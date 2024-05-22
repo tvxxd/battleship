@@ -60,4 +60,8 @@ export default class Gameboard {
     allShipsSunk() {
         return this.ships.every(ship => ship.isSunk());
     }
+
+    shipsCount() {
+        return this.ships.filter(ship => !ship.isSunk()).length;
+    }
 }
